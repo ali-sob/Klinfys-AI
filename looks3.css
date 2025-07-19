@@ -10,7 +10,7 @@ body {
   left: 3%;
   width: 300px;
   border-radius: 2em;
-  z-index: 1;
+  z-index: 2;
   padding: 5px;
 }
 
@@ -28,6 +28,7 @@ body {
   position: fixed;
   top: 0;
   left: 1%;
+  max-width: 90vw;
   z-index: 0;
 }
 
@@ -37,6 +38,7 @@ body {
   left: 2%;
   width: 300px;
   border: 0;
+  z-index: 2;
 }
 
 #left {
@@ -162,45 +164,7 @@ h2 {
   color: black;
 }
 
-.poster-boy img {
-  width: 34vw;
-  max-height: 100vh;
-  position: absolute;
-  right: 0%;
-  top: 0%;
-  border: 0;
-  z-index: -1;
-}
-
-.poster_cluster div {
-  border: 1px solid red;
-  display: inline-block;
-  width: 20%;
-  color: black;
-  font-size: 0.75em;
-  padding: 1em;
-  border-radius: 20px;
-}
-
-.poster_cluster div h4 {
-  color: red;
-}
-
-.poster1 {
-  margin-left: 50px;
-}
-.poster3 {
-  margin-left: 50px;
-  margin-top: 5%;
-}
-.poster2 {
-  margin-left: 30px;
-}
-.poster4 {
-  margin-left: 30px;
-}
-
-/* 🌐 RESPONSIVITET FÖR MOBILEN */
+/* RESPONSIV MOBILANPASSNING */
 @media (max-width: 768px) {
   #left,
   #right,
@@ -241,10 +205,18 @@ h2 {
     position: static;
     width: 90%;
     margin: 20px auto;
+    z-index: 2;
   }
 
   #input {
     width: 100%;
+  }
+
+  #bubble {
+    position: relative;
+    max-width: 100%;
+    display: block;
+    margin: 0 auto 10px auto;
   }
 
   h2 {
