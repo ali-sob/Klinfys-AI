@@ -1,0 +1,215 @@
+body{
+	margin: 0;
+	font-family: 'Open Sans Regular', sans-serif;
+	color: red;
+}
+#form{
+  position: fixed;
+  top: 15%;
+  left: 3%;
+  width: 300px;
+
+  	border-radius: 2em;
+  z-index: 1;
+  padding: 5px;
+}
+#input{
+	border-radius: 2em;
+}
+#bubble{
+  position: fixed;
+  top: 0;
+  left: 1%;
+
+  z-index: 0;
+}
+#chat{
+  position: fixed;
+  top: 40%;
+  left: 2%;
+  width: 300px;
+  border: 2px solid black;
+}
+#left{
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 40vw;
+	height: 100%;
+	background-color: white;
+	overflow: visible;
+}
+#nav{
+	position: fixed;
+	top: 0;
+	left: 40%;
+	width: 60%;
+	height: 60px;
+	background-color: rgba(255,255,255,1);
+	overflow: visible;
+	z-index:1;
+	transition-duration: 0.5s;
+}
+nav{
+	display: inline-block;
+	padding: 20px 20px;
+	color: gray;
+}
+#nav:hover{
+	background-color: whitesmoke;
+}
+
+#right{
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	width: 59.7%;
+	height: 90vh;
+	max-height: 100vh;
+	background-color: white;
+	overflow: visible;
+	z-index: -1;
+}
+#klinfysmeny{
+	position: relative;
+	top: 10vh;
+	left: 20%;
+}
+#one{
+	max-height: 100%;
+	max-width: 100%;
+	
+}
+h2{
+	margin-top: 1vh;
+	margin-left: 3vw;
+}
+.knappkf{
+	color: white;
+	background-color: red;
+	border-radius: 2em;
+	transition-duration: 0.5s;
+	font-size: 0.75em;
+	border:2px solid red;
+	padding: 5px 30px;
+	margin-top: 10px;
+	margin-left: 10px;
+	position: fixed;
+	left: 10 px;
+	top: 10 px;
+
+}
+.knappkf:hover{
+	color: black;
+	background-color: white;
+
+}
+
+.hemknapp{
+	color: white;
+	background-color: red;
+	border-radius: 0.5em;
+	transition-duration: 0.5s;
+	font-size: 1em;
+	border:2px solid red;
+	padding: 10px 30px;
+	position:fixed;
+	top: 10px;
+	right: 20px;
+
+}
+.hemknapp:hover{
+	color: black;
+	background-color: white;
+
+}
+.container-dd1{
+	position: relative;
+	display: inline-block;
+}
+div.dropdown1{
+	display: none;
+	position: absolute;
+	left:1vw;
+	background-color: whitesmoke;
+	min-width: 150px;
+	z-index: 1;
+}
+.container-dd1:hover .dropdown1{display: block;}
+.dropdown1 a{
+	display: inline-block;
+	text-decoration: none;
+	padding: 20px;
+	margin-top:20px;
+	color: gray;
+}
+.dropdown1 a:hover{
+	color: black;
+}
+
+.container-dd2{
+	position: relative;
+	display: inline-block;
+}
+div.dropdown2{
+	display: none;
+	position: absolute;
+	left:1vw;
+	background-color: whitesmoke;
+	min-width: 150px;
+	z-index:5;
+}
+.container-dd2:hover .dropdown2{
+	display: inline;
+}
+.dropdown2 a{
+	display: inline-block;
+	text-decoration: none;
+	padding: 20px;
+	margin-top:20px;
+	color: gray;
+}
+.dropdown2 a:hover{
+	color: black;
+}
+#kf:hover{
+color:black;
+}
+
+.poster-boy img{
+	width: 34vw;
+	max-height: 100vh;
+	position: absolute;
+	right: 0%;
+	top: 0%;
+	border: 0;
+	z-index: -1;
+}
+
+
+.poster_cluster div{
+	border: 1px solid red;
+	display: inline-block;
+	width: 20%;
+	color: black;
+	font-size: 0.75em;
+	padding: 1em;
+	border-radius: 20px;
+}
+.poster_cluster div h4{
+	color: red;
+}
+.poster1{
+	margin-left: 50px;
+}
+.poster3{
+	margin-left: 50px;
+	margin-top: 5%;
+}
+.poster2{
+	margin-left: 30px;
+}
+
+.poster4{
+	margin-left: 30px;
+}
