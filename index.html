@@ -1,161 +1,55 @@
-<hmtl><head>
-
-<meta charset="utf-8">
-<link rel="stylesheet" href="looks3.css">
-
-<title>Klinfys.nu</title>
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Klinfys.nu</title>
+  <link rel="stylesheet" href="looks3.css">
+</head>
 <body>
 
 <div id="left" class="lefty">
-	
-
-	
-<img src="one.gif" id="bubble">
-<br><br><br>
+  <img src="one.gif" id="bubble">
 
   <div id="chat"></div>
 
   <form id="form" autocomplete="off">
-    <input type="text" id="input" placeholder="Ställ din fråga här…" style="width:80%;padding:0.5rem;" />
-    <button type="submit" style="padding:0.5rem;">Skicka</button>
+    <input type="text" id="input" placeholder="Ställ din fråga här…" />
+    <button type="submit">Skicka</button>
   </form>
-
-  <script>
-    const chat   = document.getElementById("chat");
-    const form   = document.getElementById("form");
-    const input  = document.getElementById("input");
-
-    /* ------ konversation -------- */
-    const history = [];
-
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const fråga = input.value.trim();
-      if (!fråga) return;
-      input.value = "";
-
-      history.push({ role:"user", content: fråga });
-      append("Du", fråga, "user");
-
-      /* “skrivande …” */
-      const typingRef = append("Bot", "Skriver svar…", "bot", true);
-
-      try {
-        const res = await fetch("/api/chat", {
-          method : "POST",
-          headers: { "Content-Type":"application/json" },
-          body   : JSON.stringify({ question: fråga })
-        });
-
-        if (!res.ok) {
-          const txt = await res.text();
-          console.error("API-fel:", res.status, txt);
-          throw new Error(txt);
-        }
-
-        const data = await res.json();
-        typingRef.remove();
-
-        /*  --- bygg parentes (Filnamn s.X) om citationer finns --- */
-        let suffix = "";
-        if (Array.isArray(data.citations) && data.citations.length) {
-          suffix = " (" + data.citations
-            .map(c => `${c.label} s.${c.page}`)
-            .join(", ") + ")";
-        }
-
-        const svar = data.content;
-
-        history.push({ role:"assistant", content: svar });
-        append("Bot", svar, "bot");
-
-      } catch (err) {
-        typingRef.remove();
-        append("Bot", "Fel: " + err.message, "bot");
-      }
-    });
-
-    /** Lägg till ett meddelande i chatten, returnerar nod-referens */
-    function append(namn, text, klass, typing=false){
-      const div = document.createElement("div");
-      div.className = `msg ${klass}${typing?" typing":""}`;
-
-      const bub = document.createElement("div");
-      bub.className = "bubble";
-      /* ta bort eventuella kvarvarande 【…】-token */
-      const clean = text.replace(/【[^】]+】/gu, "");
-      bub.textContent = `${namn}: ${clean}`;
-      div.appendChild(bub);
-
-      chat.appendChild(div);
-      chat.scrollTop = chat.scrollHeight;
-      return div;
-    }
-  </script>
-
-
-
 </div>
 
- <div id="nav"> 
-<input type="button" class="hemknapp" value="HEM">
- <div class="container-dd1">	
- <nav id="kf">KLINISK FYSIOLOGI  </nav>
+<div id="nav"> 
+  <input type="button" class="hemknapp" value="HEM">
 
- 	<div class="dropdown1">
- 	<a href="#">ELEKTROKARDIOGRAFI</a><br>
- 	<a href="">EKOKARDIOGRAFI TTE</a><br>
- 	<a href="">EKOKARDIOGRAFI TEE</a><br>
- 	<a href="">ARBETSFYSIOLOGI</a><br>
- 	<a href="">RESPIRATIONSDIAGNOSTIK</a><br>
- 	<a href="">PERIFER CIRKULATIONSDIAGNOSTIK</a><br>
+  <div class="container-dd1"> 
+    <nav class="kf">KLINISK FYSIOLOGI</nav>
+    <div class="dropdown">
+      <a href="#">ELEKTROKARDIOGRAFI</a>
+      <a href="#">EKOKARDIOGRAFI TTE</a>
+      <a href="#">EKOKARDIOGRAFI TEE</a>
+      <a href="#">ARBETSFYSIOLOGI</a>
+      <a href="#">RESPIRATIONSDIAGNOSTIK</a>
+      <a href="#">PERIFER CIRKULATIONSDIAGNOSTIK</a>
+    </div>
+  </div>
 
+  <div class="container-dd2">
+    <nav class="kf">NUKLEARMEDICIN</nav>
+    <div class="dropdown">
+      <a href="#">MYOKARDSCINTIGRAFI</a>
+      <a href="#">THYROIDEASCINTIGRAFI</a>
+      <a href="#">HJÄRNSCINTIGRAFI</a>
+      <a href="#">RENOGRAFI</a>
+      <a href="#">SKELETTSCINTIGRAFI</a>
+      <a href="#">LUNGSCINTIGRAFI</a>
+    </div>
+  </div>
 </div>
-</div>
-
-
- <div class="container-dd2">
-	<nav id="kf">      NUKLEARMEDICIN</nav> 
-<br>
-	<div class="dropdown2">
- 	<a href="#">MYOKARDSCINTIGRAFI</a><br>
- 	<a href="">THYROIDEASCINTIGRAFI</a><br>
- 	<a href="">HJÄRNSCINTIGRAFI</a><br>
- 	<a href="">RENOGRAFI</a><br>
- 	<a href="">SKELETTSCINTIGRAFI</a><br>
- 	<a href="">LUNGSCINTIGRAFI</a><br>
-
-</div>
-</div>
-
-</div>
-
-
 
 <div id="right" class="righty">
-	
-
-	<h2> KLINISK FYSIOLOGI OCH NUKLEARMEDICIN</h2>
-
-
-
-<div class="poster-boy">
-	<img src="karlsystemet.png">
-</div>
-<br><br><br><br><br><br>
-<div class="poster_cluster">
-<div class="poster1"><h4>1 PLATS</h4><br>ALLA METOD-DOKUMENT SAMLADE PÅ ETT STÄLLE</div>
-<div class="poster2"><h4>INTERAKTIV</h4><br>DET INTERAKTIVA VERKTYGET VISAR BILDER/VIDEOKLIPP SOM ÄR RELEVANTA FÖR TEXTEN</div><br>
-<div class="poster3"><h4>UPPDATERAD</h4><br>ALLA DOKUMENT UPPDATERAS LÖPANDE MED MINIMAL LATENS.</div>
-<div class="poster4"><h4>ARBETA OFFLINE</h4><br>ARBETA I OFFLINELÄGE</div>
+  <h2>KLINISK FYSIOLOGI OCH NUKLEARMEDICIN</h2>
 </div>
 
-</div>
-
-
-
-
-
-
-
-</body></html>
+</body>
+</html>
