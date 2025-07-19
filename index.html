@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Klinfys.nu</title>
-  <link rel="stylesheet" href="looks3.css">
+  <link rel="stylesheet" href="looks3.css" />
 </head>
 <body>
 
-<div id="left" class="lefty">
-  <img src="one.gif" id="bubble">
+<div id="left">
+  <img src="one.gif" id="bubble" alt="AI-bild" />
 
   <div id="chat"></div>
 
@@ -25,12 +25,8 @@
   <div class="container-dd1"> 
     <nav class="kf">KLINISK FYSIOLOGI</nav>
     <div class="dropdown">
-      <a href="#">ELEKTROKARDIOGRAFI</a>
-      <a href="#">EKOKARDIOGRAFI TTE</a>
-      <a href="#">EKOKARDIOGRAFI TEE</a>
-      <a href="#">ARBETSFYSIOLOGI</a>
-      <a href="#">RESPIRATIONSDIAGNOSTIK</a>
-      <a href="#">PERIFER CIRKULATIONSDIAGNOSTIK</a>
+      <a href="#">EKG</a>
+      <a href="#">EKO</a>
     </div>
   </div>
 
@@ -38,13 +34,78 @@
     <nav class="kf">NUKLEARMEDICIN</nav>
     <div class="dropdown">
       <a href="#">MYOKARDSCINTIGRAFI</a>
-      <a href="#">THYROIDEASCINTIGRAFI</a>
-      <a href="#">HJÄRNSCINTIGRAFI</a>
-      <a href="#">RENOGRAFI</a>
-      <a href="#">SKELETTSCINTIGRAFI</a>
-      <a href="#">LUNGSCINTIGRAFI</a>
     </div>
   </div>
 </div>
 
-<div id="ri
+<div id="right">
+  <h2>KLINISK FYSIOLOGI OCH NUKLEARMEDICIN</h2>
+</div>
+
+<script>
+  const chat = document.getElementById("chat");
+  const form = document.getElementById("form");
+  const input = document.getElementById("input");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const fråga = input.value.trim();
+    if (!fråga) return;
+
+    input.value = "";
+    history.push({ role: "user", content: fråga });
+    append(">>", fråga, "user");
+
+    const typingRef = append("AI", "Skriver svar…", "bot", true);
+
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question: fråga })
+      });
+
+      if (!res.ok) {
+        const txt = await res.text();
+        console.error("API-fel:", res.status, txt);
+        throw new Error(txt);
+      }
+
+      const data = await res.json();
+      typingRef.remove();
+
+      let suffix = "";
+      if (Array.isArray(data.citations) && data.citations.length) {
+        suffix = " (" + data.citations.map(c => `${c.label} s.${c.page}`).join(", ") + ")";
+      }
+
+      const svar = data.content + suffix;
+      history.push({ role: "assistant", content: svar });
+      append("AI", svar, "bot");
+
+    } catch (err) {
+      typingRef.remove();
+      append("Bot", "Fel: " + err.message, "bot");
+    }
+  });
+
+  const history = [];
+
+  function append(namn, text, klass, typing = false) {
+    const div = document.createElement("div");
+    div.className = `msg ${klass}${typing ? " typing" : ""}`;
+
+    const bub = document.createElement("div");
+    bub.className = "bubble";
+    const clean = text.replace(/【[^】]+】/gu, "");
+    bub.textContent = `${namn}: ${clean}`;
+    div.appendChild(bub);
+
+    chat.appendChild(div);
+    chat.scrollTop = chat.scrollHeight;
+    return div;
+  }
+</script>
+
+</body>
+</html>

@@ -223,3 +223,39 @@ h2 {
     text-align: center;
   }
 }
+
+/* Lägg detta i slutet av looks3.css */
+
+#form {
+  z-index: 10;
+  pointer-events: auto;
+}
+
+#chat {
+  z-index: 10;
+}
+
+#bubble {
+  z-index: 1; /* Viktigt att denna inte ligger över formuläret */
+  pointer-events: none; /* Bilden ska inte få klick! */
+}
+
+/* Extra fix för mobil */
+@media (max-width: 768px) {
+  #form, #chat {
+    position: relative;
+    width: 90%;
+    margin: 20px auto;
+    z-index: 10;
+  }
+
+  #bubble {
+    position: relative;
+    max-width: 100%;
+    margin: 0 auto 20px auto;
+    display: block;
+    pointer-events: none;
+    z-index: 1;
+  }
+}
+
