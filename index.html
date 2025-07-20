@@ -20,7 +20,7 @@
 </div>
 
 <div id="nav"> 
-  <input type="button" class="hemknapp" value="HEM">
+
 
   <div class="container-dd1"> 
     <nav class="kf">KLINISK FYSIOLOGI</nav>
@@ -55,6 +55,9 @@
   const chat = document.getElementById("chat");
   const form = document.getElementById("form");
   const input = document.getElementById("input");
+  const bubble = document.getElementById("bubble");
+
+  const history = [];
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -64,6 +67,8 @@
     input.value = "";
     history.push({ role: "user", content: fråga });
     append(">>", fråga, "user");
+
+    bubble.src = "three.gif"; // visa "tänker"-bild
 
     const typingRef = append("AI", "Skriver svar…", "bot", true);
 
@@ -82,23 +87,24 @@
 
       const data = await res.json();
       typingRef.remove();
+      bubble.src = "one.gif"; // återställ bild
 
-      let suffix = "";
-      if (Array.isArray(data.citations) && data.citations.length) {
-        suffix = " (" + data.citations.map(c => `${c.label} s.${c.page}`).join(", ") + ")";
+      const content = data.content || "";
+      const innehållerRedan = content.toLowerCase().includes("ingen information i metoddokumenten");
+
+      if ((!data.citations || data.citations.length === 0) && !innehållerRedan) {
+        append("AI", "Jag hittar ingen information i metoddokumenten.", "bot");
       }
 
-      const svar = data.content + suffix;
-      history.push({ role: "assistant", content: svar });
-      append("AI", svar, "bot");
+      history.push({ role: "assistant", content });
+      append("AI", content, "bot");
 
     } catch (err) {
       typingRef.remove();
       append("Bot", "Fel: " + err.message, "bot");
+      bubble.src = "one.gif"; // återställ bild vid fel
     }
   });
-
-  const history = [];
 
   function append(namn, text, klass, typing = false) {
     const div = document.createElement("div");
@@ -106,8 +112,7 @@
 
     const bub = document.createElement("div");
     bub.className = "bubble";
-    const clean = text.replace(/【[^】]+】/gu, "");
-    bub.textContent = `${namn}: ${clean}`;
+    bub.textContent = `${namn}: ${text}`;
     div.appendChild(bub);
 
     chat.appendChild(div);

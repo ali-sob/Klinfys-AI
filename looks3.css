@@ -10,7 +10,7 @@ body {
   left: 3%;
   width: 300px;
   border-radius: 2em;
-  z-index: 2;
+  z-index: 10;
   padding: 5px;
 }
 
@@ -21,24 +21,43 @@ body {
 }
 
 #form button {
-  padding: 0.5rem;
+  padding: 0.6rem 1.5rem;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
+
+#form button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+
 
 #bubble {
   position: fixed;
   top: 0;
   left: 1%;
   max-width: 90vw;
-  z-index: 0;
+  z-index: 1;
+  pointer-events: none;
 }
 
 #chat {
   position: fixed;
-  top: 40%;
+  top: 38%;
+  bottom: 3%;
   left: 2%;
   width: 300px;
+  overflow-y: auto;
   border: 0;
-  z-index: 2;
+  z-index: 10;
 }
 
 #left {
@@ -48,7 +67,6 @@ body {
   width: 40vw;
   height: 100%;
   background-color: white;
-  overflow: visible;
 }
 
 #nav {
@@ -58,7 +76,6 @@ body {
   width: 60%;
   height: 60px;
   background-color: rgba(255, 255, 255, 1);
-  overflow: visible;
   z-index: 1;
   transition-duration: 0.5s;
 }
@@ -81,7 +98,6 @@ nav {
   height: 90vh;
   max-height: 100vh;
   background-color: white;
-  overflow: visible;
   z-index: -1;
 }
 
@@ -110,23 +126,7 @@ h2 {
   background-color: white;
 }
 
-.hemknapp {
-  color: white;
-  background-color: red;
-  border-radius: 0.5em;
-  transition-duration: 0.5s;
-  font-size: 1em;
-  border: 2px solid red;
-  padding: 10px 30px;
-  position: fixed;
-  top: 10px;
-  right: 20px;
-}
 
-.hemknapp:hover {
-  color: black;
-  background-color: white;
-}
 
 .container-dd1,
 .container-dd2 {
@@ -161,6 +161,29 @@ h2 {
 }
 
 .kf:hover {
+  color: black;
+}
+
+/* Chattbubblor */
+.msg {
+  margin-bottom: 10px;
+}
+
+.bubble {
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 5px;
+  max-width: 90%;
+  word-wrap: break-word;
+}
+
+.msg.user .bubble {
+  background-color: #e0e0e0; /* grå bakgrund */
+  color: black;
+}
+
+.msg.bot .bubble {
+  background-color: #d4e9ff; /* ljusblå bakgrund */
   color: black;
 }
 
@@ -202,47 +225,6 @@ h2 {
 
   #form,
   #chat {
-    position: static;
-    width: 90%;
-    margin: 20px auto;
-    z-index: 2;
-  }
-
-  #input {
-    width: 100%;
-  }
-
-  #bubble {
-    position: relative;
-    max-width: 100%;
-    display: block;
-    margin: 0 auto 10px auto;
-  }
-
-  h2 {
-    text-align: center;
-  }
-}
-
-/* Lägg detta i slutet av looks3.css */
-
-#form {
-  z-index: 10;
-  pointer-events: auto;
-}
-
-#chat {
-  z-index: 10;
-}
-
-#bubble {
-  z-index: 1; /* Viktigt att denna inte ligger över formuläret */
-  pointer-events: none; /* Bilden ska inte få klick! */
-}
-
-/* Extra fix för mobil */
-@media (max-width: 768px) {
-  #form, #chat {
     position: relative;
     width: 90%;
     margin: 20px auto;
@@ -254,8 +236,10 @@ h2 {
     max-width: 100%;
     margin: 0 auto 20px auto;
     display: block;
-    pointer-events: none;
     z-index: 1;
   }
-}
 
+  h2 {
+    text-align: center;
+  }
+}
