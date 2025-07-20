@@ -2,12 +2,13 @@
 <html lang="sv">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Klinfys.nu</title>
   <link rel="stylesheet" href="looks3.css" />
 </head>
 <body>
 
+<!-- ───────── DESKTOP-LAYOUT ───────── -->
 <div id="left">
   <img src="one.gif" id="bubble" alt="AI-bild" />
 
@@ -19,17 +20,15 @@
   </form>
 </div>
 
-<div id="nav"> 
-
-
-  <div class="container-dd1"> 
+<div id="nav">
+  <div class="container-dd1">
     <nav class="kf">KLINISK FYSIOLOGI</nav>
     <div class="dropdown">
       <a href="#">VILO-EKG</a>
       <a href="#">LÅNGTIDS-EKG</a>
       <a href="#">ARBETSPROV</a>
-      <a href="#">TRANSTHORAKAL EKOKARDIOGRAFI, TTE</a>
-      <a href="#">TRANSESOFAGEAL EKOKARDIOGRAFI, TEE</a>
+      <a href="#">TTE</a>
+      <a href="#">TEE</a>
       <a href="#">STRESS-EKO</a>
       <a href="#">MANNOMETRI</a>
     </div>
@@ -40,9 +39,9 @@
     <div class="dropdown">
       <a href="#">MYOKARDSCINTIGRAFI</a>
       <a href="#">NJURSCINTIGRAFI</a>
-      <a href="#">THYROIDEASCINTIGRAFI</a>
-      <a href="#">HJÄRNSCINTIGRAFI</a>
-      <a href="#">LUNGSCINTIGRAFI</a>
+      <a href="#">THYROIDEA-SCINTIGRAFI</a>
+      <a href="#">HJÄRN-SCINTIGRAFI</a>
+      <a href="#">LUNGS­SCINTIGRAFI</a>
     </div>
   </div>
 </div>
@@ -51,10 +50,36 @@
   <h2>KLINISK FYSIOLOGI OCH NUKLEARMEDICIN</h2>
 </div>
 
+<!-- ───────── MOBIL: hamburger-ikon + sidomeny ───────── -->
+<div id="mobile-menu-icon" onclick="toggleMobileMenu()">☰</div>
+
+<div id="mobile-menu">
+  <h3>KLINISK FYSIOLOGI</h3>
+  <nav>
+    <a href="#">VILO-EKG</a>
+    <a href="#">LÅNGTIDS-EKG</a>
+    <a href="#">ARBETSPROV</a>
+    <a href="#">TTE</a>
+    <a href="#">TEE</a>
+    <a href="#">STRESS-EKO</a>
+    <a href="#">MANNOMETRI</a>
+  </nav>
+
+  <h3>NUKLEARMEDICIN</h3>
+  <nav>
+    <a href="#">MYOKARDSCINTIGRAFI</a>
+    <a href="#">NJURSCINTIGRAFI</a>
+    <a href="#">THYROIDEA-SCINTIGRAFI</a>
+    <a href="#">HJÄRN-SCINTIGRAFI</a>
+    <a href="#">LUNGS­SCINTIGRAFI</a>
+  </nav>
+</div>
+
+<!-- ───────── JS (oförändrat för chatten, plus meny-toggle) ───────── -->
 <script>
-  const chat = document.getElementById("chat");
-  const form = document.getElementById("form");
-  const input = document.getElementById("input");
+  const chat   = document.getElementById("chat");
+  const form   = document.getElementById("form");
+  const input  = document.getElementById("input");
   const bubble = document.getElementById("bubble");
 
   const history = [];
@@ -68,41 +93,36 @@
     history.push({ role: "user", content: fråga });
     append(">>", fråga, "user");
 
-    bubble.src = "three.gif"; // visa "tänker"-bild
+    bubble.src = "three.gif";
 
     const typingRef = append("AI", "Skriver svar…", "bot", true);
 
     try {
       const res = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question: fråga })
+        method : "POST",
+        headers: { "Content-Type":"application/json" },
+        body   : JSON.stringify({ question: fråga })
       });
 
-      if (!res.ok) {
-        const txt = await res.text();
-        console.error("API-fel:", res.status, txt);
-        throw new Error(txt);
-      }
+      if (!res.ok) throw new Error(await res.text());
 
       const data = await res.json();
       typingRef.remove();
-      bubble.src = "one.gif"; // återställ bild
+      bubble.src = "one.gif";
 
-      const content = data.content || "";
-      const innehållerRedan = content.toLowerCase().includes("ingen information i metoddokumenten");
-
-      if ((!data.citations || data.citations.length === 0) && !innehållerRedan) {
+      const svar = data.content || "";
+      if ((!data.citations || data.citations.length === 0) &&
+          !svar.toLowerCase().includes("ingen information i metoddokumenten")) {
         append("AI", "Jag hittar ingen information i metoddokumenten.", "bot");
       }
 
-      history.push({ role: "assistant", content });
-      append("AI", content, "bot");
+      history.push({ role:"assistant", content:svar });
+      append("AI", svar, "bot");
 
     } catch (err) {
       typingRef.remove();
       append("Bot", "Fel: " + err.message, "bot");
-      bubble.src = "one.gif"; // återställ bild vid fel
+      bubble.src = "one.gif";
     }
   });
 
@@ -119,7 +139,11 @@
     chat.scrollTop = chat.scrollHeight;
     return div;
   }
-</script>
 
+  /* ── mobilmeny ── */
+  function toggleMobileMenu() {
+    document.getElementById("mobile-menu").classList.toggle("open");
+  }
+</script>
 </body>
 </html>

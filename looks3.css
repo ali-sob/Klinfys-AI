@@ -1,245 +1,95 @@
-body {
-  margin: 0;
-  font-family: 'Open Sans Regular', sans-serif;
-  color: black;
+/* ========== DESKTOP (standard) ================================== */
+
+body{
+  margin:0;
+  font-family:'Open Sans Regular',sans-serif;
+  color:black;
 }
 
-#form {
-  position: fixed;
-  top: 15%;
-  left: 3%;
-  width: 300px;
-  border-radius: 2em;
-  z-index: 10;
-  padding: 5px;
+/* vänster panel, bild & chatt */
+#left{position:fixed;bottom:0;left:0;width:40vw;height:100%;background:#fff;}
+#bubble{position:fixed;top:0;left:1%;max-width:90vw;z-index:1;pointer-events:none;}
+
+#chat{position:fixed;top:38%;bottom:3%;left:2%;width:300px;overflow-y:auto;z-index:10;}
+#form{position:fixed;top:15%;left:3%;width:300px;display:flex;gap:8px;z-index:10;}
+#input{flex:1;padding:.5rem;border-radius:2em;border:1px solid #ccc;font-size:1rem;}
+
+#form button{
+  padding:.6rem 1.5rem;border:none;border-radius:12px;
+  background:linear-gradient(135deg,#4facfe,#00f2fe);
+  color:#fff;font-weight:600;cursor:pointer;
+  box-shadow:0 4px 12px rgba(0,0,0,.1);transition:.3s;
+}
+#form button:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.15);}
+
+/* desktop meny */
+#nav{position:fixed;top:0;left:40%;width:60%;height:60px;display:flex;align-items:center;background:#fff;z-index:2;}
+.container-dd1,.container-dd2{position:relative;margin-right:20px;}
+.kf{padding:20px;color:gray;cursor:pointer;}
+.kf:hover{color:black;}
+
+.dropdown{display:none;position:absolute;top:100%;left:0;background:whitesmoke;min-width:150px;z-index:5;}
+.container-dd1:hover .dropdown,.container-dd2:hover .dropdown{display:block;}
+.dropdown a{display:block;padding:10px 20px;color:gray;text-decoration:none;}
+.dropdown a:hover{color:black;}
+
+/* högra statiska delen */
+#right{position:absolute;bottom:0;right:0;width:59.7%;height:90vh;background:#fff;z-index:-1;}
+h2{margin-top:1vh;margin-left:3vw;}
+
+/* chattbubblor */
+.msg{margin-bottom:10px;}
+.bubble{padding:10px;border-radius:10px;max-width:90%;word-wrap:break-word;}
+.msg.user .bubble{background:#e0e0e0;}
+.msg.bot  .bubble{background:#d4e9ff;}
+
+/* ========== MOBILMENY (hamburger) =============================== */
+
+/* döljs som standard, visas i mobil-mediaquery */
+#mobile-menu-icon{
+  display:none;
+  position:fixed;top:15px;right:20px;
+  font-size:2rem;cursor:pointer;color:#333;
+  z-index:15;
 }
 
-#input {
-  border-radius: 2em;
-  width: 80%;
-  padding: 0.5rem;
+#mobile-menu{
+  position:fixed;top:0;right:-80%;height:100%;width:80%;
+  background:#fff;box-shadow:-2px 0 6px rgba(0,0,0,.2);
+  padding:60px 20px;overflow-y:auto;transition:right .3s ease;
+  z-index:14;
 }
+#mobile-menu.open{right:0;}
 
-#form button {
-  padding: 0.6rem 1.5rem;
-  border: none;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #4facfe, #00f2fe);
-  color: white;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+#mobile-menu h3{margin:20px 0 10px;color:#444;font-size:1.1rem;}
+#mobile-menu nav a{
+  display:block;padding:10px 0;border-bottom:1px solid #eee;
+  color:gray;text-decoration:none;font-weight:500;
 }
+#mobile-menu nav a:hover{color:black;}
 
-#form button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-}
+/* ========== MOBILANPASSNING ==================================== */
+@media (max-width:768px){
 
+  /* visa hamburgerikon, dölj desktopmeny */
+  #mobile-menu-icon{display:block;}
+  #nav{display:none;}
 
+  /* bakgrundsbild fyller skärmen */
+  #bubble{position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover;}
 
-#bubble {
-  position: fixed;
-  top: 0;
-  left: 1%;
-  max-width: 90vw;
-  z-index: 1;
-  pointer-events: none;
-}
-
-#chat {
-  position: fixed;
-  top: 38%;
-  bottom: 3%;
-  left: 2%;
-  width: 300px;
-  overflow-y: auto;
-  border: 0;
-  z-index: 10;
-}
-
-#left {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 40vw;
-  height: 100%;
-  background-color: white;
-}
-
-#nav {
-  position: fixed;
-  top: 0;
-  left: 40%;
-  width: 60%;
-  height: 60px;
-  background-color: rgba(255, 255, 255, 1);
-  z-index: 1;
-  transition-duration: 0.5s;
-}
-
-nav {
-  display: inline-block;
-  padding: 20px;
-  color: gray;
-}
-
-#nav:hover {
-  background-color: whitesmoke;
-}
-
-#right {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 59.7%;
-  height: 90vh;
-  max-height: 100vh;
-  background-color: white;
-  z-index: -1;
-}
-
-h2 {
-  margin-top: 1vh;
-  margin-left: 3vw;
-}
-
-.knappkf {
-  color: white;
-  background-color: red;
-  border-radius: 2em;
-  transition-duration: 0.5s;
-  font-size: 0.75em;
-  border: 2px solid red;
-  padding: 5px 30px;
-  margin-top: 10px;
-  margin-left: 10px;
-  position: fixed;
-  left: 10px;
-  top: 10px;
-}
-
-.knappkf:hover {
-  color: black;
-  background-color: white;
-}
-
-
-
-.container-dd1,
-.container-dd2 {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdown {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background-color: whitesmoke;
-  min-width: 150px;
-  z-index: 5;
-}
-
-.container-dd1:hover .dropdown,
-.container-dd2:hover .dropdown {
-  display: block;
-}
-
-.dropdown a {
-  display: block;
-  text-decoration: none;
-  padding: 10px 20px;
-  color: gray;
-}
-
-.dropdown a:hover {
-  color: black;
-}
-
-.kf:hover {
-  color: black;
-}
-
-/* Chattbubblor */
-.msg {
-  margin-bottom: 10px;
-}
-
-.bubble {
-  padding: 10px;
-  border-radius: 10px;
-  margin-bottom: 5px;
-  max-width: 90%;
-  word-wrap: break-word;
-}
-
-.msg.user .bubble {
-  background-color: #e0e0e0; /* grå bakgrund */
-  color: black;
-}
-
-.msg.bot .bubble {
-  background-color: #d4e9ff; /* ljusblå bakgrund */
-  color: black;
-}
-
-/* RESPONSIV MOBILANPASSNING */
-@media (max-width: 768px) {
-  #left,
-  #right,
-  #nav {
-    position: static;
-    width: 100%;
-    height: auto;
+  /* centralisera chatt & formulär */
+  #left{position:static;width:100%;height:auto;background:transparent;text-align:center;}
+  #form{
+    position:relative;top:auto;left:auto;
+    margin:0 auto 1rem auto;width:90%;flex-direction:column;
+  }
+  #input{width:100%;}
+  #chat{
+    position:relative;top:auto;left:auto;
+    width:90%;max-height:50vh;margin:0 auto 2rem auto;
   }
 
-  nav {
-    display: block;
-    text-align: center;
-    padding: 10px;
-  }
-
-  .dropdown {
-    position: static;
-    display: block;
-    background-color: transparent;
-    padding: 0;
-  }
-
-  .dropdown a {
-    text-align: center;
-    padding: 15px;
-    border-bottom: 1px solid #ccc;
-  }
-
-  .hemknapp,
-  .knappkf {
-    position: static;
-    display: block;
-    margin: 10px auto;
-  }
-
-  #form,
-  #chat {
-    position: relative;
-    width: 90%;
-    margin: 20px auto;
-    z-index: 10;
-  }
-
-  #bubble {
-    position: relative;
-    max-width: 100%;
-    margin: 0 auto 20px auto;
-    display: block;
-    z-index: 1;
-  }
-
-  h2 {
-    text-align: center;
-  }
+  /* eventuell högerdel döljs helt */
+  #right{display:none;}
 }
